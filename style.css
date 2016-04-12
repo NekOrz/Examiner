@@ -1,0 +1,67 @@
+
+body {
+   font-family: "·L³n¥¿¶ÂÅé","Microsoft JhengHei";
+   
+}
+
+.article {
+   -webkit-writing-mode: vertical-rl;
+   writing-mode: vertical-rl;
+   position: absolute;
+   width: 70%;
+   height: 70%;
+   right: 15%;
+   left: 15%;
+   top: 15%;
+   bottom: 15%;
+   border: 1px solid;
+}
+
+#content {
+
+}
+
+#name, #occupation{
+    position: relative;
+    border-style: solid;
+    border-width: 0px 0px 0px 1px;
+    right: 0px;
+    top: 0px;
+}
+
+#name-content, #occupation-content{
+    position: relative;
+    border-style: solid;
+    border-width: 1px 0px 0px 0px;
+    top: 0px;
+}
+
+
+
+#choice {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    bottom: 10px;
+    
+    font-size: 20pt;
+}
+
+#execute {
+    background-color: #cc2900;
+    color: #FFFFFF;
+    
+    position: absolute;
+    top: 10%;
+    left: 0px;
+    
+}
+
+#spare{
+    background-color: #008000;
+    color: #FFFFFF;
+    
+    position: absolute;
+    bottom: 10%;
+    left: 0px;
+}
