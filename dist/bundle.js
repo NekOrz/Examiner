@@ -21506,7 +21506,7 @@
 
 
 	// module
-	exports.push([module.id, "\nbody {\n   font-family: \"\\FFFDL\\FFFDn\\FFFD\\FFFD\\FFFD\\FFFD\\FFFD\\FFFD\",\"Microsoft JhengHei\";\n   \n}\n\n#article{\n   -webkit-writing-mode: vertical-rl;\n   writing-mode: vertical-rl;\n   position: absolute;\n   width: 70%;\n   height: 70%;\n   right: 15%;\n   left: 15%;\n   top: 15%;\n   bottom: 15%;\n   border: 1px solid;\n}\n\n#content {\n\n}\n\n#name, #occupation{\n    position: relative;\n    border-style: solid;\n    border-width: 0px 0px 0px 1px;\n    right: 0px;\n    top: 0px;\n}\n\n#name-content, #occupation-content{\n    position: relative;\n    border-style: solid;\n    border-width: 1px 0px 0px 0px;\n    top: 0px;\n}\n\n\n\n#choice {\n    position: absolute;\n    left: 10px;\n    top: 10px;\n    bottom: 10px;\n    \n    font-size: 20pt;\n}\n\n#execute {\n    background-color: #cc2900;\n    color: #FFFFFF;\n    \n    position: absolute;\n    top: 10%;\n    left: 0px;\n    \n    z-index: 1;\n}\n\n#spare{\n    background-color: #008000;\n    color: #FFFFFF;\n    \n    position: absolute;\n    bottom: 10%;\n    left: 0px;\n    \n    z-index: 1;\n}", ""]);
+	exports.push([module.id, "\nbody {\n   font-family: \"\\FFFDL\\FFFDn\\FFFD\\FFFD\\FFFD\\FFFD\\FFFD\\FFFD\",\"Microsoft JhengHei\";\n\n}\n\n#article{\n   -webkit-writing-mode: vertical-rl;\n   writing-mode: vertical-rl;\n   position: absolute;\n   width: 70%;\n   height: 70%;\n   right: 15%;\n   left: 15%;\n   top: 15%;\n   bottom: 15%;\n   border: 1px solid;\n}\n\n#content {\n\n}\n\n#name, #occupation{\n    position: relative;\n    border-style: solid;\n    border-width: 0px 0px 0px 1px;\n    right: 0px;\n    top: 0px;\n}\n\n#name-content, #occupation-content{\n    position: relative;\n    border-style: solid;\n    border-width: 1px 0px 0px 0px;\n    top: 0px;\n}\n\n\n\n#choice {\n    position: absolute;\n    left: 10px;\n    top: 10px;\n    bottom: 10px;\n\n    font-size: 20pt;\n}\n\n#execute {\n    background-color: #cc2900;\n    color: #FFFFFF;\n\n    position: absolute;\n    top: 10%;\n    left: 0px;\n\n    z-index: 1;\n}\n\n#spare{\n    background-color: #008000;\n    color: #FFFFFF;\n\n    position: absolute;\n    bottom: 10%;\n    left: 0px;\n\n    z-index: 1;\n}\n\n.mid{\n  text-align: center;\n  background-color: rgb(212, 212, 212);\n\n  font-size: 14pt;\n}\n", ""]);
 
 	// exports
 
@@ -21835,13 +21835,21 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Case = __webpack_require__(183);
+	var _commonJsCookie = __webpack_require__(183);
+
+	var _commonJsCookie2 = _interopRequireDefault(_commonJsCookie);
+
+	var _Case = __webpack_require__(184);
 
 	var _Case2 = _interopRequireDefault(_Case);
 
-	var _Info = __webpack_require__(185);
+	var _Info = __webpack_require__(186);
 
 	var _Info2 = _interopRequireDefault(_Info);
+
+	var _info = __webpack_require__(187);
+
+	var _info2 = _interopRequireDefault(_info);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21867,8 +21875,10 @@
 	    _this.advanceCase = _this.advanceCase.bind(_this);
 	    _this.addChoice = _this.addChoice.bind(_this);
 	    _this.resetState = _this.resetState.bind(_this);
-	    _this.gotoCase = _this.gotoCase.bind(_this);
-	    _this.gotoInfo = _this.gotoInfo.bind(_this);
+	    _this.goNext = _this.goNext.bind(_this);
+	    _this.genMain = _this.genMain.bind(_this);
+	    _this.save = _this.save.bind(_this);
+	    _this.load = _this.load.bind(_this);
 	    return _this;
 	  }
 
@@ -21883,45 +21893,112 @@
 	    key: 'addChoice',
 	    value: function addChoice(choice) {
 	      this.setState({
-	        choices: this.state.choices.push(choice)
+	        choices: this.state.choices.concat(choice)
 	      });
+	      this.goNext();
 	    }
 	  }, {
 	    key: 'resetState',
 	    value: function resetState() {
 	      this.setState({
-	        gameState: 0, // 0: Intro
+	        gameState: 0, // 0: Intro, 1: Case, 2: Ending
 	        caseNumber: 0, // The progress
 	        choices: []
 	      });
 	    }
 	  }, {
-	    key: 'gotoCase',
-	    value: function gotoCase() {
+	    key: 'goNext',
+	    value: function goNext() {
+	      if (this.state.gameState === 2) this.advanceCase();
 	      this.setState({
-	        gameState: 1
+	        gameState: (this.state.gameState + 1) % 3
 	      });
 	    }
 	  }, {
-	    key: 'gotoInfo',
-	    value: function gotoInfo() {
-	      this.setState({
-	        gameState: 0
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
+	    key: 'genMain',
+	    value: function genMain() {
 	      if (this.state.gameState === 0) {
-	        console.log('Innnn');
-	        return _react2.default.createElement(_Info2.default, { go: this.gotoCase, text: this.state.caseNumber });
+	        return _react2.default.createElement(_Info2.default, { go: this.goNext, text: _info2.default[this.state.caseNumber].premise });
 	      } else if (this.state.gameState === 1) {
-	        return _react2.default.createElement(_Case2.default, { 'case': this.state.caseNumber });
+	        return _react2.default.createElement(_Case2.default, { choose: this.addChoice, 'case': this.state.caseNumber });
+	      } else if (this.state.gameState === 2) {
+	        var endings = _info2.default[this.state.caseNumber].ending;
+	        var str = endings[this.state.choices[this.state.choices.length - 1]];
+	        return _react2.default.createElement(_Info2.default, { go: this.goNext, text: str });
 	      }
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        ' Wut? '
+	      );
+	    }
+	  }, {
+	    key: 'save',
+	    value: function save() {
+	      _commonJsCookie2.default.setItem('all', JSON.stringify(this.state));
+	    }
+	  }, {
+	    key: 'load',
+	    value: function load() {
+	      var obj = _commonJsCookie2.default.getItem('all');
+	      this.setState(JSON.parse(obj));
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-md-12 mid' },
+	          'Examiner'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-md-2 dropdown' },
+	          _react2.default.createElement(
+	            'button',
+	            {
+	              className: 'btn btn-default dropdown-toggle',
+	              type: 'button',
+	              id: 'dropdownMenu1',
+	              'data-toggle': 'dropdown',
+	              'aria-haspopup': 'true',
+	              'aria-expanded': 'true'
+	            },
+	            'Option',
+	            _react2.default.createElement('span', { className: 'caret' })
+	          ),
+	          _react2.default.createElement(
+	            'ul',
+	            { className: 'dropdown-menu', 'aria-labelledby': 'dropdownMenu1' },
+	            _react2.default.createElement(
+	              'li',
+	              { onClick: function onClick() {
+	                  return _this2.save();
+	                } },
+	              'Save'
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { onClick: function onClick() {
+	                  return _this2.load();
+	                } },
+	              'Load'
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { onClick: function onClick() {
+	                  return _this2.resetState();
+	                } },
+	              'Reset'
+	            )
+	          )
+	        ),
+	        this.genMain()
 	      );
 	    }
 	  }]);
@@ -21933,6 +22010,99 @@
 
 /***/ },
 /* 183 */
+/***/ function(module, exports) {
+
+	/**
+	 * CommonJS cookie module.
+	 * @module common-js-cookie
+	 */
+
+	module.exports = {
+
+	    /**
+	     * Return a value of the key within a cookie if it exists
+	     * @param  { string } key - The key to search for and return
+	     * @return { string } the value of the key if it exists
+	     */
+	    getItem: function (key) {
+	        if (!key) {
+	            return null;
+	        }
+	        return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(key).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
+	    },
+
+	    /**
+	     * Set a cookie
+	     * @param { string } key - The name of the cookie to create/overwrite
+	     * @param { string } value - The value of the cookie
+	     * @param { number|string|Date|null } expiryDate - The max-age in seconds (e.g. 31536e3 for a year, Infinity for a never-expires cookie), or the expires date in GMTString format or as Date object; if not specified the cookie will expire at the end of session
+	     * @param { string|null } path - The path from where the cookie will be readable. E.g., "/", "/mydir"; if not specified, defaults to the current path of the current document location. The path must be absolute (see RFC 2965). For more information on how to use relative paths in this argument, see this paragraph.
+	     * @param { string|null } domain - The domain from where the cookie will be readable. E.g., "example.com", ".example.com" (includes all subdomains) or "subdomain.example.com"; if not specified, defaults to the host portion of the current document location
+	     * @param { boolean|null } The cookie will be transmitted only over secure protocol as https.
+	     */
+	    setItem: function (key, value, expiryDate, path, domain, secure) {
+	        if (!key || /^(?:expires|max\-age|path|domain|secure)$/i.test(key)) {
+	            return false;
+	        }
+	        var sExpires = "";
+	        if (expiryDate) {
+	            switch (expiryDate.constructor) {
+	                case Number:
+	                    sExpires = expiryDate === Infinity ? "; expires=Fri, 31 Dec 9999 23:59:59 GMT" : "; max-age=" + expiryDate;
+	                    break;
+	                case String:
+	                    sExpires = "; expires=" + expiryDate;
+	                    break;
+	                case Date:
+	                    sExpires = "; expires=" + expiryDate.toUTCString();
+	                    break;
+	            }
+	        }
+	        document.cookie = encodeURIComponent(key) + "=" + encodeURIComponent(value) + sExpires + (domain ? "; domain=" + domain : "") + (path ? "; path=" + path : "") + (secure ? "; secure" : "");
+	        return true;
+	    },
+	 
+	    /**
+	     * [removeItem description]
+	     * @param  { string } name - The name of the cookie to remove
+	     * @param  { string|null } path - E.g., "/", "/mydir"; if not specified, defaults to the current path of the current document location. The path must be absolute (see RFC 2965). For more information on how to use relative paths in this argument, see this paragraph.
+	     * @param  { string|null } domain - E.g., "example.com", ".example.com" (includes all subdomains) or "subdomain.example.com"; if not specified, defaults to the host portion of the current document location
+	     * @return { boolean } Returns true if the item has been deleted, returns false otherwise
+	     */
+	    removeItem: function (key, path, domain) {
+	        if (!this.hasItem(key)) {
+	            return false;
+	        }
+	        document.cookie = encodeURIComponent(key) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" + (domain ? "; domain=" + domain : "") + (path ? "; path=" + path : "");
+	        return true;
+	    },
+	 
+	    /**
+	     * Checks whether a cookie has the specified key
+	     * @param  { sting } key - The key to be searched for
+	     * @return { Boolean } The result of the search
+	     */
+	    hasItem: function (key) {
+	        if (!key) { return false; }
+	        return (new RegExp("(?:^|;\\s*)" + encodeURIComponent(key).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=")).test(document.cookie);
+	    },
+	    
+	    /**
+	     * Returns all keys in a cookie
+	     * @return { Array } The array of keys
+	     */
+	    keys: function () {
+	        var aKeys = document.cookie.replace(/((?:^|\s*;)[^\=]+)(?=;|$)|^\s*|\s*(?:\=[^;]*)?(?:\1|$)/g, "").split(/\s*(?:\=[^;]*)?;\s*/);
+	        for (var nLen = aKeys.length, nIdx = 0; nIdx < nLen; nIdx++) {
+	            aKeys[nIdx] = decodeURIComponent(aKeys[nIdx]);
+	        }
+	        return aKeys;
+	    }
+	 
+	};
+
+/***/ },
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21941,105 +22111,89 @@
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _case = __webpack_require__(184);
+	var _case = __webpack_require__(185);
 
 	var _case2 = _interopRequireDefault(_case);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Case = function (_React$Component) {
-	  _inherits(Case, _React$Component);
-
-	  function Case() {
-	    _classCallCheck(this, Case);
-
-	    return _possibleConstructorReturn(this, (Case.__proto__ || Object.getPrototypeOf(Case)).apply(this, arguments));
-	  }
-
-	  _createClass(Case, [{
-	    key: 'render',
-	    value: function render() {
-	      var data = _case2.default[Number(this.props.case)];
-	      return _react2.default.createElement(
-	        'div',
-	        { id: 'article' },
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'name' },
-	          _react2.default.createElement(
-	            'span',
-	            null,
-	            '\u59D3\u540D'
-	          ),
-	          _react2.default.createElement(
-	            'span',
-	            { id: 'name-content' },
-	            data.name
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'occupation' },
-	          _react2.default.createElement(
-	            'span',
-	            null,
-	            '\u8077\u696D'
-	          ),
-	          _react2.default.createElement(
-	            'span',
-	            { id: 'occupation-content' },
-	            data.occupation
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'span',
-	          { id: 'content' },
-	          data.content
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'choice' },
-	          _react2.default.createElement(
-	            'div',
-	            { id: 'execute' },
-	            '\u8655\u6C7A'
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { id: 'spare' },
-	            '\u91CB\u653E'
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Case;
-	}(_react2.default.Component);
-
+	function Case(props) {
+	  var data = _case2.default[Number(props.case)];
+	  return _react2.default.createElement(
+	    'div',
+	    { id: 'article' },
+	    _react2.default.createElement(
+	      'div',
+	      { id: 'name' },
+	      _react2.default.createElement(
+	        'span',
+	        null,
+	        '\u59D3\u540D'
+	      ),
+	      _react2.default.createElement(
+	        'span',
+	        { id: 'name-content' },
+	        data.name
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { id: 'occupation' },
+	      _react2.default.createElement(
+	        'span',
+	        null,
+	        '\u8077\u696D'
+	      ),
+	      _react2.default.createElement(
+	        'span',
+	        { id: 'occupation-content' },
+	        data.occupation
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'span',
+	      { id: 'content' },
+	      data.content
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { id: 'choice' },
+	      _react2.default.createElement(
+	        'button',
+	        { onClick: function onClick() {
+	            return props.choose(0);
+	          }, id: 'execute' },
+	        '\u8655\u6C7A'
+	      ),
+	      _react2.default.createElement(
+	        'button',
+	        { onClick: function onClick() {
+	            return props.choose(1);
+	          }, id: 'spare' },
+	        '\u91CB\u653E'
+	      )
+	    )
+	  );
+	}
 	Case.defaultProps = {
-	  case: 0
+	  case: 0,
+	  choose: function choose() {
+	    return console.log('NOOOOO!');
+	  }
 	};
 	Case.propTypes = {
-	  case: _react2.default.PropTypes.number
+	  case: _react2.default.PropTypes.number,
+	  choose: _react2.default.PropTypes.func
 	};
 
 	exports.default = Case;
 
 /***/ },
-/* 184 */
+/* 185 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -22047,11 +22201,16 @@
 			"name": "王阿德",
 			"occupation": "學生",
 			"content": "被檢舉人在學校成立社團「興台會」，意圖顛覆國家，鼓吹不利於民族復興之言論。"
+		},
+		{
+			"name": "張阿發",
+			"occupation": "商人",
+			"content": "嫌犯被發現出入大學校園，並且參加興台會之演講活動，就嫌犯身分而言不應進出該場所，故遭校警隊逮捕，現居留於看守所內。"
 		}
 	];
 
 /***/ },
-/* 185 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22065,10 +22224,6 @@
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
-
-	var _info = __webpack_require__(186);
-
-	var _info2 = _interopRequireDefault(_info);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22098,8 +22253,8 @@
 	      console.log('data!');
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'article' },
-	        _info2.default.str
+	        { id: 'article', onClick: this.props.go },
+	        this.props.text
 	      );
 	    }
 	  }]);
@@ -22114,21 +22269,32 @@
 	  }
 	};
 	Info.propTypes = {
-	  text: _react2.default.PropTypes.number,
+	  text: _react2.default.PropTypes.string,
 	  go: _react2.default.PropTypes.func
 	};
 
 	exports.default = Info;
 
 /***/ },
-/* 186 */
+/* 187 */
 /***/ function(module, exports) {
 
-	module.exports = {
-		"str": [
-			"終於，在經過了多年的努力之後之後，你受到總統的青睞而成為了國安會主委。然而時局動盪，社會中出現許許多多的匪徒。你需要發揮你的長才來保衛這個國家，即便這代表其餘無辜的市民會遭受牽連也一樣..."
-		]
-	};
+	module.exports = [
+		{
+			"premise": "終於，在經過了多年的努力之後之後，你受到總統的青睞而成為了國安會主委。然而時局動盪，社會中出現許許多多的匪徒。你需要發揮你的長才來保衛這個國家，即便這代表其餘無辜的市民會遭受牽連也一樣...",
+			"ending": [
+				"王阿德被槍決了。有個家庭因此而破碎，不過為了更崇高的目的，這樣的手段應該是相當合理的吧...？",
+				"王阿德被釋放了。在接下來的數十年間，他十分畏懼再受到逮捕，所以從此不再接觸政治，並以此教育自己的子女，成為了一個好國民。"
+			]
+		},
+		{
+			"premise": "還有更多案子正等著你。",
+			"ending": [
+				"張阿發已被排入槍決名單，在聽取證詞及開庭後就會執行。不過今天法官好像生病請假，沒關係，反正只是形式上的，等等請書記官暫代法官好了。",
+				"張阿發已被排入釋放名單，不過為了保險起見，還是關他個十年八年再放出去好了。"
+			]
+		}
+	];
 
 /***/ }
 /******/ ]);

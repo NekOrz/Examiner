@@ -7,7 +7,7 @@ module.exports = {
     ],
     "rules": {
         "brace-style": ["error", "stroustrup", {"allowSingleLine": true}],
-        "no-console": 0,
+        "no-console": 1,
         'react/jsx-filename-extension': 0
     }
 };

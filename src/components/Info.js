@@ -1,5 +1,4 @@
 import React from 'react';
-import data from '../text/info.json';
 
 class Info extends React.Component {
   constructor(props) {
@@ -10,7 +9,7 @@ class Info extends React.Component {
   }
   render() {
     console.log('data!');
-    return (<div id="article">{data.str}</div>);
+    return (<div id="article" onClick={this.props.go}>{this.props.text}</div>);
   }
 }
 
@@ -19,7 +18,7 @@ Info.defaultProps = {
   go: () => console.log('FUCKED UP!'),
 };
 Info.propTypes = {
-  text: React.PropTypes.number,
+  text: React.PropTypes.string,
   go: React.PropTypes.func,
 };
 
