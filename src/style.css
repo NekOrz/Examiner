@@ -1,7 +1,7 @@
 
 body {
-   font-family: "·L³n¥¿¶ÂÅé","Microsoft JhengHei";
-   
+   font-family: "ï¿½Lï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½","Microsoft JhengHei";
+
 }
 
 #article{
@@ -43,28 +43,35 @@ body {
     left: 10px;
     top: 10px;
     bottom: 10px;
-    
+
     font-size: 20pt;
 }
 
 #execute {
     background-color: #cc2900;
     color: #FFFFFF;
-    
+
     position: absolute;
     top: 10%;
     left: 0px;
-    
+
     z-index: 1;
 }
 
 #spare{
     background-color: #008000;
     color: #FFFFFF;
-    
+
     position: absolute;
     bottom: 10%;
     left: 0px;
-    
+
     z-index: 1;
+}
+
+.mid{
+  text-align: center;
+  background-color: rgb(212, 212, 212);
+
+  font-size: 14pt;
 }

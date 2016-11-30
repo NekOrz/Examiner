@@ -35,7 +35,7 @@ $("#article").click(function(){
     {
         //$("#article").html("王阿德被槍決了。");
     }
-    
+
 });
 
 $(document).on('click','#execute',function(){
@@ -45,4 +45,3 @@ $(document).on('click','#execute',function(){
 $(document).on('click','#spare',function(){
     $("#article").html("王阿德被釋放了。在接下來的數十年間，他十分畏懼再受到逮捕，所以從此不再接觸政治，並以此教育自己的子女，成為了一個好國民。");
 });
-
